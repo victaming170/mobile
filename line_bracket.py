@@ -7,8 +7,6 @@ while True:
     file_in_s = input('Input file: ')
     if not file_in_s:
         file_in_s = file_in_pre
-    else:
-        file_in_s = ((repr(file_in_s))[1:-1]).replace('\\', '/')
     file_in = Path(file_in_s)
     if file_in.is_file():
         break

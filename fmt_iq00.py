@@ -11,6 +11,7 @@ while True:
         file_in_s = ((repr(file_in_s))[1:-1]).replace('\\', '/')
     file_in = Path(file_in_s)
     if file_in.is_file():
+        # print(f'file_in={file_in_s}')
         break
     else:
         print('Can not find the file, try again, pls.')
