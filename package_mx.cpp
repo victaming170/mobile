@@ -52,15 +52,49 @@ string strxchar(string raw_, int len_, char fill_='0', bool forward_=true){
 int main()
 {
     std::cout << "======== ======== ======== ========\n";
-    std::cout << "======== BinPackage 2.0 mx ========\n";
+    std::cout << "======== BinPackage 3.0 mx ========\n";
     std::cout << "======== ======== ======== ========\n"; 
+//============= load setting ================
+    struct _stat stf_info, src_info, dst_dir_info;
+    string line[3];
+    fstream stf;
+    string stf_name = "bin_package_setting.txt";
+    if((_stat(stf_name.data(), &stf_info) == 0) &&(stf_info.st_mode &S_IFREG))
+        cout << "Successfully open setting file." <<endl;
+    else{
+        cout << "Setting file missed, reset." <<endl;
+        stf.open(stf_name, ios::out);
+        stf << "/* first line is last source file, second line is output directory.\
+                (don't miss the '/' at the end of directory.)*/" <<endl;
+        stf << "none" <<endl;
+        stf << "./";
+        stf.close();
+    }
+    stf.open(stf_name, ios::in);
+    getline(stf, line[0]);  getline(stf, line[1]);
+    getline(stf, line[2]);
+    stf.close();
+    if((_stat(line[1].data(), &src_info) == 0) &&(src_info.st_mode &S_IFREG))
+        cout << "Last source file: " << line[1] <<endl;
+    else{
+        cout << "!!! Last source file can not found, reset." <<endl;
+        line[1] = "none";
+    }
+    
+    if((_stat(line[2].data(), &dst_dir_info) == 0) &&(dst_dir_info.st_mode &S_IFDIR))
+        cout << "Output directory: " << line[2] <<endl;
+    else{
+        cout << "!!! Invalid output directory, reset." <<endl;
+        line[2] = "./";
+    }
+    cout <<endl;
 //============= get input file ===============
     string in_filename;
-    string pre_filename = "iof/NR.bin";
+    string pre_filename = line[1];
     struct _stat f_info;
     for(;;){
         string scan_str;
-        cout << "Input file  : ";
+        cout << "Input file (enter to load last source file) >>>";
         getline(cin, scan_str);
         if(scan_str == "")
             scan_str = pre_filename;
@@ -69,9 +103,16 @@ int main()
             break;
         }
         else
-            cout << "File do not exist. try again, pls." <<endl;
+            cout << "!!! The file do not exist anymore. try again, pls." <<endl;
     }
-    cout << "Last modified time of input_file: " << ctime(&(f_info.st_mtime)) <<endl;
+    cout << "Get input file : " << in_filename <<endl;
+    cout << "----Last modified at " << ctime(&(f_info.st_mtime)) <<endl;
+
+    stf.open(stf_name, ios::out);
+    stf << line[0] <<endl;
+    stf << in_filename <<endl;
+    stf << line[2];
+    stf.close();
 
 //================= header =================
     char header[2] = {(char)0xc5, (char)0x84};
@@ -102,7 +143,7 @@ int main()
     tm_6B[5] = (uc)(our_tm->tm_sec );
 
     // genetate output filename and get path
-    string out_filename = "pkg--"
+    string out_filename = line[2] + "pkg--"
                         + strxchar(to_string(our_tm->tm_mon + 1), 2)
                         + strxchar(to_string(our_tm->tm_mday),    2)+ "--"
                         + strxchar(to_string(our_tm->tm_hour),    2) + '_'
@@ -140,6 +181,7 @@ int main()
         fo.write(&zero, 1);
     fo.close();
 
+    cout << "\n\n[P.S.] You can set output directory in setting file." <<endl;
     system("pause");
     return 0;
 }
