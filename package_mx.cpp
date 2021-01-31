@@ -58,14 +58,14 @@ int main()
     struct _stat stf_info, src_info, dst_dir_info;
     string line[3];
     fstream stf;
-    string stf_name = "bin_package_setting.txt";
+    string stf_name = "bin_package.config";
     if((_stat(stf_name.data(), &stf_info) == 0) &&(stf_info.st_mode &S_IFREG))
         cout << "Successfully open setting file." <<endl;
     else{
         cout << "Setting file missed, reset." <<endl;
         stf.open(stf_name, ios::out);
-        stf << "/* first line is last source file, second line is output directory.\
-                (don't miss the '/' at the end of directory.)*/" <<endl;
+        stf << "/* first line is last source file, second line is output directory.";
+        stf << "(don't miss the '/' at the end of output_directory.)*/" <<endl;
         stf << "none" <<endl;
         stf << "./";
         stf.close();
