@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sys/stat.h>
 #include <ctime>
+#include <string>
 #include <stdlib.h>
 using namespace std;
 
@@ -182,7 +183,11 @@ int main()
     fo.close();
 
     cout << "\n\n[P.S.] You can set output directory in setting file." <<endl;
+<<<<<<< HEAD
     cout << "\t----by Franco Lee. C++" <<endl;
+=======
+    cout << "\t----by Franco Lee.";
+>>>>>>> f024863d571fc4ec0e4feeaddbfb8f3d1578dcc6
     system("pause");
     return 0;
 }
