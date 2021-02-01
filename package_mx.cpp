@@ -58,7 +58,7 @@ int main()
     struct _stat stf_info, src_info, dst_dir_info;
     string line[3];
     fstream stf;
-    string stf_name = "bin_package.config";
+    string stf_name = "bin_package.cfg";
     if((_stat(stf_name.data(), &stf_info) == 0) &&(stf_info.st_mode &S_IFREG))
         cout << "Successfully open setting file." <<endl;
     else{
@@ -130,7 +130,7 @@ int main()
 
 //============= get current time ============
     time_t now = time(0);
-    tm *our_tm = localtime(&now);
+    struct tm *our_tm = localtime(&now);
     char tm_6B[6];
     cout << "Packing time: ";
     cout << (our_tm->tm_year - 100) << '-' << (our_tm->tm_mon + 1) << '-' << our_tm->tm_mday << ' ';
@@ -167,7 +167,7 @@ int main()
         fo.write(&data, 1);
     }
     fi.close();
-    cout.flags(ios::hex |ios::showbase);
+    // cout.flags(ios::hex |ios::showbase);
     // cout << "CRC = " << crc <<endl;
     char crcHB = (uc)((crc >>8) &0x00ff);
     char crcLB = (uc)((crc    ) &0x00ff);
@@ -182,6 +182,7 @@ int main()
     fo.close();
 
     cout << "\n\n[P.S.] You can set output directory in setting file." <<endl;
+    cout << "\t----by Franco Lee. C++" <<endl;
     system("pause");
     return 0;
 }
