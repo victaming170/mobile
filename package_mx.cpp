@@ -184,7 +184,11 @@ int main()
 
     cout << "\n\n[P.S.] You can set output directory in setting file." <<endl;
 <<<<<<< HEAD
+<<<<<<< HEAD
     cout << "\t----by Franco Lee. C++" <<endl;
+=======
+    cout << "\t----by Franco Lee.";
+>>>>>>> f024863d571fc4ec0e4feeaddbfb8f3d1578dcc6
 =======
     cout << "\t----by Franco Lee.";
 >>>>>>> f024863d571fc4ec0e4feeaddbfb8f3d1578dcc6
